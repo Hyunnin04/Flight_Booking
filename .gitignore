@@ -8,3 +8,6 @@
 .DS_Store
 
 /vendor/bundle/
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

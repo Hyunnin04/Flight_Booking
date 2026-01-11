@@ -1,61 +1,140 @@
-<div class="w-full max-w-full md:max-w-5xl mx-auto p-10 bg-white shadow-lg rounded-xl space-y-4">
+<div class="max-w-5xl mx-auto p-8 bg-white rounded-xl shadow-lg">
 
-<% if @booking.errors.any? %>
-  <div class="mb-6 rounded-lg border border-red-300 bg-red-50 p-4">
-    <h3 class="text-red-700 font-semibold mb-2">
-      Please fix the following errors:
-    </h3>
-    <ul class="list-disc list-inside text-red-600 text-sm space-y-1">
-      <% @booking.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-  
- <h1 class="text-3xl font-bold mb-6 text-center ">Book Flight</h1>
-  <%= form_with model: [@flight, @booking], local: true, class: "max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6" do |f| %>
-  
+  <!-- Page Title -->
+  <h1 class="text-3xl font-bold text-center mb-8">Book Flight</h1>
+
   <!-- Flight Info Card -->
-  <div class="border-b pb-4 mb-6">
-    <p class="text-lg font-bold text-gray-800 mb-1">Flight <%= @flight.flight_number %></p>
-    <p class="text-gray-800 mb-1"><span class="font-semibold"><%= @flight.from_city %></span> → <span class="font-semibold"><%= @flight.to_city %></span></p>
-    <p class="text-sm text-gray-700 mb-1">
-      <strong>Departure:</strong> <%= @flight.departure_time.strftime("%d %b %Y %H:%M") %> &nbsp;|&nbsp;
-      <strong>Arrival:</strong> <%= @flight.arrival_time.strftime("%d %b %Y %H:%M") %>
+  <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-8">
+    <p class="text-lg font-semibold text-gray-800">
+      Flight <%= @flight.flight_number %>
     </p>
-    <p class="text-gray-700 mb-3"><strong>Price:</strong> $<%= @flight.price %></p>
+
+    <p class="text-gray-700 mt-1">
+      <span class="font-medium"><%= @flight.from_city %></span>
+      →
+      <span class="font-medium"><%= @flight.to_city %></span>
+    </p>
+
+    <p class="text-sm text-gray-600 mt-1">
+      <strong>Departure:</strong>
+      <%= @flight.departure_time.strftime("%d %b %Y %I:%M %p") %>
+      &nbsp;|&nbsp;
+      <strong>Arrival:</strong>
+      <%= @flight.arrival_time.strftime("%d %b %Y %I:%M %p") %>
+    </p>
+
+    <p class="text-gray-800 font-semibold mt-2">
+      Price: $<%= number_with_precision(@flight.price, precision: 2) %>
+    </p>
   </div>
 
-  <!-- Hidden Flight ID -->
-  <%= f.hidden_field :flight_id %>
-      <!-- CONTACT INFO -->
-      <h3 class="text-lg font-semibold mb-3">Contact Information</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+  <%= form_with model: [@flight, @booking], local: true, class: "space-y-8" do |f| %>
+
+    <%= f.hidden_field :flight_id %>
+
+    <!-- CONTACT INFO -->
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label class="text-sm text-gray-600">Email</label>
-          <%= f.email_field :email, class: "mt-1 w-full border rounded px-3 py-2" %>
+          <label class="text-sm text-gray-600">Email <span class="text-red-500">*</span></label>
+          <%= f.email_field :email,
+            class: "mt-1 w-full border rounded-lg px-3 py-2 #{'border-red-500' if @booking.errors[:email].any?}" %>
+          <% @booking.errors[:email].each do |msg| %>
+            <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+          <% end %>
         </div>
 
         <div>
-          <label class="text-sm text-gray-600">Phone</label>
-          <%= f.text_field :phone, class: "mt-1 w-full border rounded px-3 py-2" %>
+          <label class="text-sm text-gray-600">Phone <span class="text-red-500">*</span></label>
+          <%= f.text_field :phone,
+            class: "mt-1 w-full border rounded-lg px-3 py-2 #{'border-red-500' if @booking.errors[:phone].any?}" %>
+          <% @booking.errors[:phone].each do |msg| %>
+            <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+          <% end %>
         </div>
       </div>
-      <!-- PASSENGER -->
-      <h3 class="text-lg font-semibold mb-3">Passenger Details</h3>
-      <%= f.fields_for :passengers do |p| %>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <%= p.text_field :full_name, placeholder: "Full name", class: "border rounded px-3 py-2" %>
-          <%= p.text_field :passport_number, placeholder: "Passport number", class: "border rounded px-3 py-2" %>
-          <%= p.date_field :date_of_birth, class: "border rounded px-3 py-2" %>
-          <%= p.text_field :nationality, placeholder: "Nationality", class: "border rounded px-3 py-2" %>
-        </div>
+    </section>
+
+    <!-- PASSENGER -->
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Passenger Details</h2>
+
+      <div id="passengers">
+        <%= f.fields_for :passengers do |p| %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 border-l-4 border-blue-500 pl-4 py-2">
+
+            <div>
+              <%= p.text_field :full_name,
+                placeholder: "Full name *",
+                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:full_name].any?}" %>
+              <% p.object.errors[:full_name].each do |msg| %>
+                <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= p.text_field :passport_number,
+                placeholder: "Passport number *",
+                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:passport_number].any?}" %>
+              <% p.object.errors[:passport_number].each do |msg| %>
+                <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= p.date_field :date_of_birth,
+                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:date_of_birth].any?}" %>
+              <% p.object.errors[:date_of_birth].each do |msg| %>
+                <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= p.text_field :nationality,
+                placeholder: "Nationality *",
+                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:nationality].any?}" %>
+              <% p.object.errors[:nationality].each do |msg| %>
+                <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-        <!-- ACTIONS -->
-      <div class="flex justify-between items-center">
-        <%= link_to "← Back", root_path, class: "px-6 py-2 border rounded" %>
-        <%= f.submit "Continue", class: "bg-blue-600 text-white px-6 py-2 rounded" %>
       </div>
+
+      <!-- Add Passenger Button -->
+      <button type="button" onclick="addPassenger()" class="mb-4 text-blue-600 underline">
+        + Add Passenger
+      </button>
+
+      <!-- Hidden Passenger Template -->
+      <div id="passenger-template" class="hidden">
+        <%= f.fields_for :passengers, Passenger.new, child_index: "NEW_RECORD" do |p| %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 border-l-4 border-blue-500 pl-4 py-2">
+            <%= p.text_field :full_name, placeholder: "Full Name *", class: "border rounded px-3 py-2 w-full" %>
+            <%= p.text_field :passport_number, placeholder: "Passport Number *", class: "border rounded px-3 py-2 w-full" %>
+            <%= p.date_field :date_of_birth, class: "border rounded px-3 py-2 w-full" %>
+            <%= p.text_field :nationality, placeholder: "Nationality *", class: "border rounded px-3 py-2 w-full" %>
+          </div>
+        <% end %>
+      </div>
+
+    </section>
+
+    <!-- ACTIONS -->
+    <div class="flex justify-between items-center pt-6 border-t">
+      <%= link_to "← Back", root_path, class: "text-gray-600 hover:underline" %>
+      <%= f.submit "Continue", class: "bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg" %>
+    </div>
+
   <% end %>
 </div>
+
+<script>
+  function addPassenger() {
+    const template = document.getElementById("passenger-template")
+      .innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    document.getElementById("passengers").insertAdjacentHTML("beforeend", template);
+  }
+</script>

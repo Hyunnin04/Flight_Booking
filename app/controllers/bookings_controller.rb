@@ -4,7 +4,9 @@ class BookingsController < ApplicationController
   # STEP 1: Show booking form
   def new
     @booking = @flight.bookings.new
-    1.times { @booking.passengers.build } # build passenger form
+    num = params[:passengers].to_i
+    num = 1 if num < 1
+    num.times { @booking.passengers.build }
   end
 
   # STEP 2: Save booking (with validation)

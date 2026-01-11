@@ -1,29 +1,80 @@
-<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg space-y-4">
-  <h1 class="text-3xl font-bold text-center text-gray-800">Booking Confirmation</h1>
+<div
+  class=" max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-4xl mx-auto p-6 md:p-10 bg-white shadow-lg rounded-xl space-y-8 "
+>
+
+  <!-- Title -->
+  <h1 class="text-3xl font-bold text-center text-gray-800">
+    Booking Confirmation
+  </h1>
 
   <!-- Flight Info -->
-  <div class="space-y-2 border-b pb-4">
-    <h2 class="text-xl font-semibold text-gray-800">Flight <%= @booking.flight.flight_number %></h2>
-    <p class="text-gray-700"><span class="font-medium">Route:</span> <%= @booking.flight.from_city %> → <%= @booking.flight.to_city %></p>
-    <p class="text-gray-700"><span class="font-medium">Email:</span> <%= @booking.email %></p>
-    <p class="text-gray-700"><span class="font-medium">Phone:</span> <%= @booking.phone %></p>
+  <div class="space-y-2 border-b pb-6">
+    <h2 class="text-xl font-semibold text-gray-800">
+      Flight <%= @booking.flight.flight_number %>
+    </h2>
+
+    <p class="text-gray-700">
+      <span class="font-medium">Route:</span>
+      <%= @booking.flight.from_city %> → <%= @booking.flight.to_city %>
+    </p>
+
+    <p class="text-gray-700">
+      <span class="font-medium">Email:</span>
+      <%= @booking.email %>
+    </p>
+
+    <p class="text-gray-700">
+      <span class="font-medium">Phone:</span>
+      <%= @booking.phone %>
+    </p>
   </div>
 
   <!-- Passengers -->
-  <h3 class="text-lg font-semibold text-gray-800">Passengers</h3>
-  <div class="space-y-4">
-    <% @booking.passengers.each_with_index do |p, i| %>
-      <div class="border rounded-lg p-4 shadow-sm bg-gray-50 space-y-2">
-        <p><span class="font-medium">Passenger <%= i+1 %>:</span> <%= p.full_name %></p>
-        <p><span class="font-medium">Passport:</span> <%= p.passport_number %></p>
-        <p><span class="font-medium">Date of Birth:</span> <%= p.date_of_birth %></p>
-        <p><span class="font-medium">Nationality:</span> <%= p.nationality %></p>
-      </div>
-    <% end %>
+  <div>
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+      Passengers
+    </h3>
+
+    <div class="space-y-4 md:space-y-6">
+      <% @booking.passengers.each_with_index do |p, i| %>
+        <div
+          class="
+            grid grid-cols-1 md:grid-cols-2
+            gap-x-8 gap-y-2
+            border-l-4 border-blue-500
+            pl-4 py-2
+          "
+        >
+          <p class="font-medium text-gray-800 col-span-1 md:col-span-2">
+            Passenger <%= i + 1 %>
+          </p>
+
+          <p class="text-gray-700">
+            <span class="font-medium">Name:</span> <%= p.full_name %>
+          </p>
+
+          <p class="text-gray-700">
+            <span class="font-medium">Passport:</span> <%= p.passport_number %>
+          </p>
+
+          <p class="text-gray-700">
+            <span class="font-medium">Date of Birth:</span> <%= p.date_of_birth %>
+          </p>
+
+          <p class="text-gray-700">
+            <span class="font-medium">Nationality:</span> <%= p.nationality %>
+          </p>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <!-- Done Button -->
-  <div class="text-center mt-6">
-    <%= link_to "Done", root_path, class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+  <!-- Actions -->
+  <div class="text-center pt-6 border-t">
+    <%= link_to "Done",
+      root_path,
+      class: "inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition"
+    %>
   </div>
+
 </div>
