@@ -1,0 +1,22 @@
+<div class="w-full max-w-full md:max-w-5xl mx-auto p-10 bg-white shadow-lg rounded-xl space-y-4">
+ <h1 class="text-3xl font-bold mb-6 text-center">Available Flights</h1>
+  <% @flights.each do |flight| %>
+    <div class="border p-4 rounded shadow-sm bg-white flex justify-between gap-8">
+      <div>
+        <h2 class="text-xl font-semibold"><%= flight.flight_number %></h2>
+        <p><%= flight.from_city %> → <%= flight.to_city %></p>
+        <p class="text-sm text-gray-500">
+          <%= flight.departure_time.strftime("%d %b %Y %H:%M") %>
+        </p>
+        <p class="font-semibold">$<%= flight.price %></p>
+      </div>
+
+      <!-- Go to booking form -->
+      <%= link_to "Book",
+       new_flight_booking_path(flight),
+        class: "bg-blue-600 text-white px-4 py-2 rounded self-center" %>
+    </div>
+  <% end %>
+</div>
+
+

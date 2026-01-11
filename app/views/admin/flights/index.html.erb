@@ -1,0 +1,55 @@
+<div class="p-6 bg-white shadow rounded-lg">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-bold text-gray-800">Flights</h1>
+  <div class="flex space-x-2">
+    <%= link_to "Add Flight",
+        new_admin_flight_path,
+        class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" %>
+  </div>
+</div>
+
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Flight</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Route</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seats</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @flights.each do |flight| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 whitespace-nowrap font-medium text-gray-700">
+              <%= flight.flight_number %>
+            </td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600">
+              <%= flight.from_city || "Unknown" %> → <%= flight.to_city || "Unknown" %>
+            </td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600">
+              <%= flight.seat_available || 0 %>
+            </td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600">$<%= flight.price %></td>
+            <td class="px-4 py-2 whitespace-nowrap space-x-2">
+              <%= link_to "Edit", edit_admin_flight_path(flight),
+                  class: "text-blue-600 hover:text-blue-800 font-medium" %>
+            
+            </td>
+            <td>
+ <%= button_to "Delete", admin_flight_path(flight),
+              method: :delete,
+              data: { confirm: "Are you sure?" },
+              class: "bg-red-600 hover:bg-red-800 text-white px-3 py-1 rounded" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

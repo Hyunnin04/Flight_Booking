@@ -1,0 +1,32 @@
+<%= form_with model: [:admin, @flight], class: "space-y-4" do |f| %>
+
+  <%= f.text_field :flight_number, 
+  placeholder: "Flight Number", 
+  class: "w-full border p-2 rounded" %>
+  <%= f.text_field :from_city, 
+  placeholder: "From City", 
+  class: "w-full border p-2 rounded" %>
+  <%= f.text_field :to_city, 
+  placeholder: "To City", 
+  class: "w-full border p-2 rounded" %>
+
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.datetime_field :departure_time, 
+    class: "border p-2 rounded" %>
+    <%= f.datetime_field :arrival_time, 
+    class: "border p-2 rounded" %>
+  </div>
+
+  <%= f.number_field :seat_available, 
+  placeholder: "Seats", 
+  class: "w-full border p-2 rounded" %>
+  <%= f.number_field :price, 
+  placeholder: "Price", 
+  class: "w-full border p-2 rounded" %>
+
+  <%= f.submit "Save Flight", 
+  class: "bg-green-600 text-white px-6 py-2 rounded" %>
+  <%= link_to "Cancel", admin_flights_path, 
+  class: "bg-red-600 text-white px-6 py-2 rounded" %>
+
+<% end %>

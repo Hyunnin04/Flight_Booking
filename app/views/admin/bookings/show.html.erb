@@ -1,0 +1,15 @@
+<h2 class="text-xl font-bold mb-4">Booking Details</h2>
+
+<p><strong>Email:</strong> <%= @booking.email %></p>
+<p><strong>Phone:</strong> <%= @booking.phone %></p>
+<p><strong>Flight:</strong> <%= @booking.flight.flight_number %></p>
+
+<h3 class="font-semibold mt-4">Passengers</h3>
+
+<ul>
+  <% @booking.passengers.each do |p| %>
+    <li>
+      <%= p.full_name %> – <%= p.passport_number %>
+    </li>
+  <% end %>
+</ul>

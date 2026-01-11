@@ -1,0 +1,9 @@
+/log/*
+/tmp/*
+/storage/*
+/node_modules
+/vendor/bundle
+.env
+/config/master.key
+.DS_Store
+

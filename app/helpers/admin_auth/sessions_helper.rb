@@ -1,0 +1,2 @@
+module AdminAuth::SessionsHelper
+end
