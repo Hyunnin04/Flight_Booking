@@ -17,8 +17,15 @@
     class: "border p-2 rounded" %>
   </div>
 
-  <%= f.number_field :seat_available, 
-  placeholder: "Seats", 
+  <%= f.number_field :economy_seats, 
+  placeholder: "Economy Seats",
+  class: "w-full border p-2 rounded" %>
+  <%= f.number_field :business_seats, 
+  placeholder: "Business Seats",
+  class: "w-full border p-2 rounded" %>
+  <%= f.number_field :first_seats, 
+  placeholder: "First Seats",
+  
   class: "w-full border p-2 rounded" %>
   <%= f.number_field :price, 
   placeholder: "Price", 

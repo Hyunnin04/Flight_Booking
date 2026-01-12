@@ -1,53 +1,58 @@
-<div class="w-full max-w-full md:max-w-5xl mx-auto p-10 bg-white shadow-lg rounded-xl space-y-6">
+<div class="w-full max-w-5xl mx-auto p-10 bg-white shadow-lg rounded-xl space-y-6">
   <h1 class="text-3xl font-bold mb-6 text-center">Available Flights</h1>
 
   <% @flights.each do |flight| %>
-    <div class="border p-4 rounded shadow-sm bg-white flex justify-between gap-8 items-center">
+    <div class="border p-6 rounded shadow-sm bg-white flex flex-col gap-4">
       
       <!-- Flight Info -->
-      <div>
-        <h2 class="text-xl font-semibold mb-2">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-xl font-semibold">
           <span class="font-medium">Flight Number:</span> <%= flight.flight_number %>
         </h2>
-        <p class="mb-1"><%= flight.from_city %> → <%= flight.to_city %></p>
-        <p class="text-sm text-gray-500 mb-1">
+
+        <p class="text-gray-700">
+          <%= flight.from_city %> → <%= flight.to_city %>
+        </p>
+
+        <p class="text-sm text-gray-500">
           <span class="font-medium">Departure:</span>
           <%= flight.departure_time.strftime("%d %b %Y %I:%M %p") %>
         </p>
-        <p class="text-sm text-gray-500 mb-2">
+
+        <p class="text-sm text-gray-500">
           <span class="font-medium">Arrival:</span>
           <%= flight.arrival_time.strftime("%d %b %Y %I:%M %p") %>
         </p>
 
-        <!-- Seat Types -->
-        <p class="text-sm text-gray-500 font-medium">Seat Availability:</p>
-        <p class="text-sm text-gray-500 mb-2">
+        <p class="text-sm text-gray-500 font-medium mt-2">Seat Availability:</p>
+        <p class="text-sm text-gray-500">
           Economy: <%= flight.economy_seats %> <% if flight.economy_seats.zero? %><span class="text-red-500">(Full)</span><% end %> |
           Business: <%= flight.business_seats %> <% if flight.business_seats.zero? %><span class="text-red-500">(Full)</span><% end %> |
           First: <%= flight.first_seats %> <% if flight.first_seats.zero? %><span class="text-red-500">(Full)</span><% end %>
         </p>
 
-        <!-- Flight Fully Booked -->
         <% if flight.full? %>
-          <p class="text-red-600 font-semibold mb-2">Flight is Fully Booked</p>
+          <p class="text-red-600 font-semibold mt-2">Flight is Fully Booked</p>
         <% end %>
-
-        <!-- Price -->
-        <p class="text-green-500 font-semibold">$<%= number_with_precision(flight.price, precision: 2) %></p>
       </div>
 
-      <!-- Book Button -->
-      <div>
+      <!-- Price + Book Button Row -->
+      <div class="flex justify-between items-center mt-4">
+        <!-- Price + "Base Price" on the left -->
+        <p class="text-green-500 font-semibold text-lg">
+          $<%= number_with_precision(flight.price, precision: 2) %> <span class="text-gray-500 font-normal text-sm">Base Price</span>
+        </p>
+      <!-- Book Button on the right -->
         <% if flight.full? %>
-          <button class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed" disabled>
+          <button class="bg-gray-400 text-white px-5 py-2 rounded cursor-not-allowed" disabled>
             Fully Booked
           </button>
         <% else %>
-          <%= link_to "Book", new_flight_booking_path(flight),
-              class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+          <%= link_to "Book Flight Now",
+              new_flight_booking_path(flight),
+              class: "bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded" %>
         <% end %>
       </div>
-
     </div>
   <% end %>
 </div>

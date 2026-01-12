@@ -9,6 +9,10 @@ class Booking < ApplicationRecord
   before_create :reduce_flight_seats
   after_destroy :restore_flight_seats
 
+  def total_price
+    passengers.sum(&:price)
+  end
+
   private
 
   # Make sure passengers exist

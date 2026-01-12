@@ -37,7 +37,11 @@
               Business: <%= flight.business_seats %>,
               First: <%= flight.first_seats %>
             </td>
-            <td class="px-4 py-2 whitespace-nowrap text-gray-600">$<%= flight.price %></td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600">
+              E: $<%= flight.price %>,
+              B: $<%= flight.price * 1.5 %>,
+              F: $<%= flight.price * 2 %>
+            </td>
             <td class="px-4 py-2 whitespace-nowrap space-x-2">
               <%= link_to "Edit", edit_admin_flight_path(flight),
                   class: "text-blue-600 hover:text-blue-800 font-medium" %>

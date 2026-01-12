@@ -14,8 +14,10 @@
         <p><span class="font-semibold">Departure:</span> <%= @booking.flight.departure_time.strftime("%d %b %Y %I:%M %p") %></p>
         <p><span class="font-semibold">Arrival:</span> <%= @booking.flight.arrival_time.strftime("%d %b %Y %I:%M %p") %></p>
         <p><span class="font-semibold">Route:</span> <%= @booking.flight.from_city %> → <%= @booking.flight.to_city %></p>
-        <p><span class="font-semibold">Price:</span> $<%= @booking.flight.price %></p>
         <p><span class="font-semibold">Passengers:</span> <%= @booking.passengers.count %></p>
+        <p><span class="font-semibold">Total Price:</span>
+          $<%= number_with_precision(@booking.total_price, precision: 2) %>
+        </p>
       </div>
     </div>
   </div>

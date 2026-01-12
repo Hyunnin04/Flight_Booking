@@ -13,6 +13,7 @@
       <p><span class="font-semibold">Date of Birth:</span> <%= @passenger.date_of_birth.strftime("%d %b %Y") %></p>
       <p><span class="font-semibold">Nationality:</span> <%= @passenger.nationality %></p>
       <p><span class="font-semibold">Seat Type:</span> <%= @passenger.seat_type.capitalize %></p>
+      <p><span class="font-semibold">Price:</span> $<%= number_with_precision(@passenger.price, precision: 2) %></p>
     </div>
   </div>
 
