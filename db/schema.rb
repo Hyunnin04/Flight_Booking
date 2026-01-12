@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_10_103502) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_12_021425) do
   create_table "admin_auths", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -35,6 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_103502) do
     t.string "from_city"
     t.decimal "price"
     t.integer "seat_available"
+    t.integer "seats_available"
     t.string "to_city"
     t.datetime "updated_at", null: false
   end

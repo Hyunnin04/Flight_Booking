@@ -11,6 +11,7 @@
         <p class="text-sm text-gray-500"><span class="font-medium">Arrival:</span>
           <%= flight.arrival_time.strftime("%d %b %Y %H:%M %p") %>
         </p>
+        <p class="text-sm text-gray-500"><span class="font-medium">Seats Available:</span> <%= flight.seats_available %></p>
         <p class="text-green-500 font-semibold">$<%= number_with_precision(flight.price, precision: 2) %></p>
       </div>
 
