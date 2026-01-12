@@ -1,4 +1,32 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Passengers#show</h1>
-  <p>Find me in app/views/admin/passengers/show.html.erb</p>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Passenger Details</h1>
+    <%= link_to "Back", admin_passengers_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <!-- Personal Information Card -->
+  <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4">Personal Information</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+      <p><span class="font-semibold">Full Name:</span> <%= @passenger.full_name %></p>
+      <p><span class="font-semibold">Passport Number:</span> <%= @passenger.passport_number %></p>
+      <p><span class="font-semibold">Date of Birth:</span> <%= @passenger.date_of_birth.strftime("%d %b %Y") %></p>
+      <p><span class="font-semibold">Nationality:</span> <%= @passenger.nationality %></p>
+      <p><span class="font-semibold">Seat Type:</span> <%= @passenger.seat_type.capitalize %></p>
+    </div>
+  </div>
+
+  <!-- Booking Information Card -->
+  <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4">Booking Information</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+      <p><span class="font-semibold">Flight Number:</span> <%= @passenger.booking.flight.flight_number %></p>
+      <p><span class="font-semibold">Route:</span> <%= @passenger.booking.flight.from_city %> → <%= @passenger.booking.flight.to_city %></p>
+      <p><span class="font-semibold">Departure:</span> <%= @passenger.booking.flight.departure_time.strftime("%d %b %Y %I:%M %p") %></p>
+      <p><span class="font-semibold">Arrival:</span> <%= @passenger.booking.flight.arrival_time.strftime("%d %b %Y %I:%M %p") %></p>
+      <p><span class="font-semibold">Booking ID:</span> <%= @passenger.booking_id %></p>
+      <p><span class="font-semibold">Email:</span> <%= @passenger.booking.email %></p>
+      <p><span class="font-semibold">Phone:</span> <%= @passenger.booking.phone %></p>
+    </div>
+  </div>
 </div>

@@ -1,20 +1,18 @@
 <div class="max-w-5xl mx-auto p-8 bg-white rounded-xl shadow-lg">
 
   <!-- Page Title -->
-  <h1 class="text-3xl font-bold text-center mb-8">Book Flight</h1>
+  <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Book Flight</h1>
 
   <!-- Flight Info Card -->
-  <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-8">
+  <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
     <p class="text-lg font-semibold text-gray-800">
       Flight <%= @flight.flight_number %>
     </p>
-
     <p class="text-gray-700 mt-1">
       <span class="font-medium"><%= @flight.from_city %></span>
       →
       <span class="font-medium"><%= @flight.to_city %></span>
     </p>
-
     <p class="text-sm text-gray-600 mt-1">
       <strong>Departure:</strong>
       <%= @flight.departure_time.strftime("%d %b %Y %I:%M %p") %>
@@ -22,34 +20,34 @@
       <strong>Arrival:</strong>
       <%= @flight.arrival_time.strftime("%d %b %Y %I:%M %p") %>
     </p>
-
     <p class="text-gray-800 font-semibold mt-2">
       Price: $<%= number_with_precision(@flight.price, precision: 2) %>
     </p>
   </div>
 
-  <%= form_with model: [@flight, @booking], local: true, class: "space-y-8" do |f| %>
-
+  <%= form_with model: [@flight, @booking], local: true, class: "space-y-10" do |f| %>
     <%= f.hidden_field :flight_id %>
 
     <!-- CONTACT INFO -->
-    <section>
-      <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
+    <section class="space-y-4">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Contact Information</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <%# Email %>
         <div>
-          <label class="text-sm text-gray-600">Email <span class="text-red-500">*</span></label>
+          <%= f.label :email, "Email", class: "text-sm text-gray-600" %><span class="text-red-500">*</span>
           <%= f.email_field :email,
-            class: "mt-1 w-full border rounded-lg px-3 py-2 #{'border-red-500' if @booking.errors[:email].any?}" %>
+            class: "mt-1 w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if @booking.errors[:email].any?}" %>
           <% @booking.errors[:email].each do |msg| %>
             <p class="text-red-500 text-sm mt-1"><%= msg %></p>
           <% end %>
         </div>
 
+        <%# Phone %>
         <div>
-          <label class="text-sm text-gray-600">Phone <span class="text-red-500">*</span></label>
+          <%= f.label :phone, "Phone", class: "text-sm text-gray-600" %><span class="text-red-500">*</span>
           <%= f.text_field :phone,
-            class: "mt-1 w-full border rounded-lg px-3 py-2 #{'border-red-500' if @booking.errors[:phone].any?}" %>
+            class: "mt-1 w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if @booking.errors[:phone].any?}" %>
           <% @booking.errors[:phone].each do |msg| %>
             <p class="text-red-500 text-sm mt-1"><%= msg %></p>
           <% end %>
@@ -57,65 +55,82 @@
       </div>
     </section>
 
-    <!-- PASSENGER -->
-    <section>
-      <h2 class="text-xl font-semibold mb-4">Passenger Details</h2>
+    <!-- PASSENGERS -->
+    <section class="space-y-4">
+      <h2 class="text-xl font-semibold text-gray-700">Passenger Details</h2>
 
-      <div id="passengers">
+      <div id="passengers" class="space-y-4">
         <%= f.fields_for :passengers do |p| %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 border-l-4 border-blue-500 pl-4 py-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border-l-4 border-blue-500 bg-gray-50 rounded-lg">
 
+            <%# Full Name %>
             <div>
               <%= p.text_field :full_name,
-                placeholder: "Full name *",
-                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:full_name].any?}" %>
+                placeholder: "Full Name *",
+                class: "w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if p.object.errors[:full_name].any?}" %>
               <% p.object.errors[:full_name].each do |msg| %>
                 <p class="text-red-500 text-sm mt-1"><%= msg %></p>
               <% end %>
             </div>
 
+            <%# Passport Number %>
             <div>
               <%= p.text_field :passport_number,
-                placeholder: "Passport number *",
-                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:passport_number].any?}" %>
+                placeholder: "Passport Number *",
+                class: "w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if p.object.errors[:passport_number].any?}" %>
               <% p.object.errors[:passport_number].each do |msg| %>
                 <p class="text-red-500 text-sm mt-1"><%= msg %></p>
               <% end %>
             </div>
 
+            <%# Date of Birth %>
             <div>
               <%= p.date_field :date_of_birth,
-                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:date_of_birth].any?}" %>
+                class: "w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if p.object.errors[:date_of_birth].any?}" %>
               <% p.object.errors[:date_of_birth].each do |msg| %>
                 <p class="text-red-500 text-sm mt-1"><%= msg %></p>
               <% end %>
             </div>
 
+            <%# Nationality %>
             <div>
               <%= p.text_field :nationality,
                 placeholder: "Nationality *",
-                class: "w-full border rounded-lg px-3 py-2 #{'border-red-500' if p.object.errors[:nationality].any?}" %>
+                class: "w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if p.object.errors[:nationality].any?}" %>
               <% p.object.errors[:nationality].each do |msg| %>
                 <p class="text-red-500 text-sm mt-1"><%= msg %></p>
               <% end %>
             </div>
+
+            <%# Seat Type %>
+            <div>
+              <%= p.select :seat_type,
+                Passenger::SEAT_TYPES.map { |t| [t.titleize, t] },
+                {}, 
+                class: "w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 #{'border-red-500' if p.object.errors[:seat_type].any?}" %>
+              <% p.object.errors[:seat_type].each do |msg| %>
+                <p class="text-red-500 text-sm mt-1"><%= msg %></p>
+              <% end %>
+            </div>
+
           </div>
         <% end %>
       </div>
 
       <!-- Add Passenger Button -->
-      <button type="button" onclick="addPassenger()" class="mb-4 text-blue-600 underline">
+      <button type="button" onclick="addPassenger()" class="text-blue-600 hover:underline mt-2">
         + Add Passenger
       </button>
 
       <!-- Hidden Passenger Template -->
       <div id="passenger-template" class="hidden">
         <%= f.fields_for :passengers, Passenger.new, child_index: "NEW_RECORD" do |p| %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 border-l-4 border-blue-500 pl-4 py-2">
-            <%= p.text_field :full_name, placeholder: "Full Name *", class: "border rounded px-3 py-2 w-full" %>
-            <%= p.text_field :passport_number, placeholder: "Passport Number *", class: "border rounded px-3 py-2 w-full" %>
-            <%= p.date_field :date_of_birth, class: "border rounded px-3 py-2 w-full" %>
-            <%= p.text_field :nationality, placeholder: "Nationality *", class: "border rounded px-3 py-2 w-full" %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border-l-4 border-blue-500 bg-gray-50 rounded-lg mt-2">
+            <%= p.text_field :full_name, placeholder: "Full Name *", class: "w-full border rounded-lg px-3 py-2" %>
+            <%= p.text_field :passport_number, placeholder: "Passport Number *", class: "w-full border rounded-lg px-3 py-2" %>
+            <%= p.date_field :date_of_birth, class: "w-full border rounded-lg px-3 py-2" %>
+            <%= p.text_field :nationality, placeholder: "Nationality *", class: "w-full border rounded-lg px-3 py-2" %>
+            <%= p.select :seat_type, Passenger::SEAT_TYPES.map { |t| [t.titleize, t] }, {}, class: "w-full border rounded-lg px-3 py-2" %>
           </div>
         <% end %>
       </div>

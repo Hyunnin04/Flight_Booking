@@ -1,26 +1,53 @@
 class Booking < ApplicationRecord
   belongs_to :flight
-  has_many :passengers, dependent: :destroy
+  has_many :passengers, inverse_of: :booking, dependent: :destroy
+  accepts_nested_attributes_for :passengers, allow_destroy: true
 
-  accepts_nested_attributes_for :passengers
+  validates :email, :phone, presence: true
 
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :phone, presence: true, format: { with: /\A\d{7,15}\z/, message: "must be 7–15 digits" }
-
+  before_validation :build_passengers_if_needed
   before_create :reduce_flight_seats
   after_destroy :restore_flight_seats
 
-  private 
+  private
+
+  # Make sure passengers exist
+  def build_passengers_if_needed
+    self.passengers.build if self.passengers.empty?
+  end
+
+  # Reduce flight seats based on each passenger's seat_type
   def reduce_flight_seats
-    seat_needed = passengers.size
-
     flight.with_lock do
-      if flight.seats_available < seat_needed
-        errors.add(:base, "Not enough seats available")
-        throw(:abort)
+      counts = passengers.group(:seat_type).count
+      counts.each do |seat_type, num|
+        column = seat_column(seat_type)
+        if flight[column] < num
+          errors.add(:base, "Not enough #{seat_type} seats")
+          throw(:abort)
+        end
+        flight.update!(column => flight[column] - num)
       end
+    end
+  end
 
-      flight.update!(seats_available: flight.seats_available - seat_needed)
+  # Restore flight seats on cancel
+  def restore_flight_seats
+    flight.with_lock do
+      counts = passengers.group(:seat_type).count
+      counts.each do |seat_type, num|
+        column = seat_column(seat_type)
+        flight.update!(column => flight[column] + num)
+      end
+    end
+  end
+
+  # Map seat_type to flight column
+  def seat_column(seat_type)
+    case seat_type
+    when "economy" then :economy_seats
+    when "business" then :business_seats
+    when "first" then :first_seats
     end
   end
 end

@@ -33,7 +33,9 @@
               <%= flight.from_city || "Unknown" %> → <%= flight.to_city || "Unknown" %>
             </td>
             <td class="px-4 py-2 whitespace-nowrap text-gray-600">
-              <%= flight.seat_available || 0 %>
+              Economy: <%= flight.economy_seats %>,
+              Business: <%= flight.business_seats %>,
+              First: <%= flight.first_seats %>
             </td>
             <td class="px-4 py-2 whitespace-nowrap text-gray-600">$<%= flight.price %></td>
             <td class="px-4 py-2 whitespace-nowrap space-x-2">

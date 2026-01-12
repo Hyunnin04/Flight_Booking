@@ -1,7 +1,7 @@
+# app/controllers/bookings_controller.rb
 class BookingsController < ApplicationController
   before_action :set_flight
 
-  # STEP 1: Show booking form
   def new
     @booking = @flight.bookings.new
     num = params[:passengers].to_i
@@ -9,10 +9,8 @@ class BookingsController < ApplicationController
     num.times { @booking.passengers.build }
   end
 
-  # STEP 2: Save booking (with validation)
   def create
     @booking = @flight.bookings.new(booking_params)
-
     if @booking.save
       redirect_to flight_booking_path(@flight, @booking), notice: "Booking successful"
     else
@@ -20,7 +18,6 @@ class BookingsController < ApplicationController
     end
   end
 
-  # STEP 3: Show booking confirmation (read-only)
   def show
     @booking = Booking.find(params[:id])
   end
@@ -39,7 +36,8 @@ class BookingsController < ApplicationController
         :full_name,
         :passport_number,
         :date_of_birth,
-        :nationality
+        :nationality,
+        :seat_type
       ]
     )
   end

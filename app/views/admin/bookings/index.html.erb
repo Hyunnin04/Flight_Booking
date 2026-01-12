@@ -13,6 +13,7 @@
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Flight</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Passengers</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seat Type</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
         </tr>
       </thead>
@@ -23,6 +24,9 @@
         <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= booking.flight.flight_number %></td>
         <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= booking.email %></td>
         <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= booking.passengers.count %></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-600">
+          <%= booking.passengers.group(:seat_type).count.map { |type, count| "#{type.capitalize}: #{count}" }.join(", ") %>
+        </td>
         <td class="px-4 py-2 whitespace-nowrap text-gray-600">
           <%= link_to "View", admin_booking_path(booking), class: "text-blue-600" %>
         </td>

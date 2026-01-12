@@ -1,15 +1,46 @@
-<h2 class="text-xl font-bold mb-4">Booking Details</h2>
+     <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Booking Details</h1>
+    <%= link_to "Back", admin_bookings_path, class: "text-blue-600 hover:underline" %>
+  </div>
+  <!-- Booking Info Card -->
+  <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+      <div>
+        <p><span class="font-semibold">Email:</span> <%= @booking.email %></p>
+        <p><span class="font-semibold">Phone:</span> <%= @booking.phone %></p>
+      </div>
+      <div>
+        <p><span class="font-semibold">Flight Number:</span> <%= @booking.flight.flight_number %></p>
+        <p><span class="font-semibold">Departure:</span> <%= @booking.flight.departure_time.strftime("%d %b %Y %I:%M %p") %></p>
+        <p><span class="font-semibold">Arrival:</span> <%= @booking.flight.arrival_time.strftime("%d %b %Y %I:%M %p") %></p>
+        <p><span class="font-semibold">Route:</span> <%= @booking.flight.from_city %> → <%= @booking.flight.to_city %></p>
+        <p><span class="font-semibold">Price:</span> $<%= @booking.flight.price %></p>
+        <p><span class="font-semibold">Passengers:</span> <%= @booking.passengers.count %></p>
+      </div>
+    </div>
+  </div>
+  <!-- Passengers Table -->
+  <div class="mt-6 overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Full Name</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Passport Number</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seat Type</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @booking.passengers.each do |p| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= p.full_name %></td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= p.passport_number %></td>
+            <td class="px-4 py-2 whitespace-nowrap text-gray-600"><%= p.seat_type.capitalize %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<p><strong>Email:</strong> <%= @booking.email %></p>
-<p><strong>Phone:</strong> <%= @booking.phone %></p>
-<p><strong>Flight:</strong> <%= @booking.flight.flight_number %></p>
 
-<h3 class="font-semibold mt-4">Passengers</h3>
 
-<ul>
-  <% @booking.passengers.each do |p| %>
-    <li>
-      <%= p.full_name %> – <%= p.passport_number %>
-    </li>
-  <% end %>
-</ul>
